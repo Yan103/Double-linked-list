@@ -78,8 +78,10 @@ ListReturnCode ListDump(List* list, const char* func, int line, int args_count, 
 
     if (args_count != 0) {
         fprintf(html_file, "(");
-        va_list arguments;
+
+        va_list arguments = {};
         va_start(arguments, args_count);
+        
         for (int i = 0; i < args_count; i++) {
             int tmp = va_arg(arguments, int);
             if (i != args_count - 1) {
