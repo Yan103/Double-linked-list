@@ -28,9 +28,12 @@ const int   COMMAND_BUFFER_CONSTANT = 500;
 
 /*!
     @brief Function that calls DUMP
-    \param [out] list - pointer on list
+    \param [out] list   - pointer on list
+    \param  [in] func   - call function name
+    \param  [in] line   - call function line
+    \param  [in] title  - information about call function
 */
-ListReturnCode ListDump(List* list, const char* func, int line, int args_count, ...) {
+ListReturnCode ListDump(List* list, const char* func, int line, const char* title, ...) {
     ASSERT(list   != NULL, "NULL POINTER WAS PASSED!\n");
     ASSERT(func   != NULL, "NULL POINTER WAS PASSED!\n");
 
@@ -73,26 +76,16 @@ ListReturnCode ListDump(List* list, const char* func, int line, int args_count, 
         return FILE_ERROR;
     }
 
-    fprintf(html_file, "<pre>\n    ");
-    fprintf(html_file, "<hr>\n    <font size=\"10\">%s ", func);
+    fprintf(html_file, "<pre>\n<hr>\n    <font size=\"10\">");
 
-    if (args_count != 0) {
-        fprintf(html_file, "(");
+    va_list args = {};
+    va_start(args, title);
 
-        va_list arguments = {};
-        va_start(arguments, args_count);
-        
-        for (int i = 0; i < args_count; i++) {
-            int tmp = va_arg(arguments, int);
-            if (i != args_count - 1) {
-                fprintf(html_file, "%d, ", tmp);
-            } else {
-                fprintf(html_file, "%d)", tmp);
-            }
-        }
-        va_end(arguments);
-    }
-    fprintf(html_file, "✅</font>\n    ");
+    vfprintf(html_file, title, args);
+
+    va_end(args);
+
+    fprintf(html_file, " ✅</font>\n    ");
 
     MakeHTMLDump(list, html_file, dump_id, func, line);
     fclose(html_file);

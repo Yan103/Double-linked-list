@@ -15,10 +15,11 @@
 #include "Dump.h"
 #include "ListMethods.h"
 
+
 #ifdef DEBUG
-    #define LIST_DUMP(list, args_count, ...) { ListDump(list, __func__, __LINE__, args_count, __VA_ARGS__); }
+    #define LIST_DUMP(list, title, ...) { ListDump(list, __func__, __LINE__, title, __VA_ARGS__); }
 #else
-    #define LIST_DUMP(list, args_count, ...) {}
+    #define LIST_DUMP(list, title, ...) {}
 #endif
 
 /*!
@@ -26,9 +27,9 @@
     \param [out] list   - pointer on list
     \param  [in] func   - call function name
     \param  [in] line   - call function line
-    \param  [in] method - call function method and args
+    \param  [in] title  - information about call function
 */
-ListReturnCode ListDump(List* list, const char* func, int line, int args_count, ...);
+ListReturnCode ListDump(List* list, const char* func, int line, const char* title, ...) __attribute__ ((format(printf, 4, 5)));
 
 /*!
     @brief Function that creates base for DUMP

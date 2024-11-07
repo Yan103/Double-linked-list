@@ -12,7 +12,7 @@
 #include "ListMethods.h"
 
 int main() {
-    srand(time(NULL));
+    srand((unsigned int)time(NULL));
 
     List* list = ListCtor(5);
 
@@ -21,6 +21,7 @@ int main() {
     ListInsertAfter(list, 0, 666);
 
     ListResize(list, 10);
+
     ListDeleteStart(list);
     ListInsertAfter(list, 2, 999);
     ListInsertEnd(list, 333);

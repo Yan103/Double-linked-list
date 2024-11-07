@@ -69,7 +69,7 @@ List* ListCtor(size_t size) {
     list->free     = 1;
 
     LIST_VERIFY(list);
-    LIST_DUMP(list, 1, size);
+    LIST_DUMP(list, "%s (%lu)", __func__, size);
 
     return list;
 }
@@ -82,6 +82,7 @@ ListReturnCode ListDtor(List* list) {
     ASSERT(list != NULL, "NULL POINTER WAS PASSED!\n");
 
     LIST_VERIFY(list);
+    LIST_DUMP(list, "%s", __func__);
 
     FREE(list->data)
     FREE(list->next)
@@ -103,7 +104,7 @@ ListReturnCode ListInsertAfter(List* list, int index, ListElem value) {
     ASSERT(index >= 0,   "INDEX ERROR!\n");
 
     LIST_VERIFY(list);
-    LIST_DUMP(list, 2, index, value);
+    LIST_DUMP(list, "Start: %s (%d, %d)", __func__, index, value);
 
     if (list->free == -1) {
         printf(RED("There is no free space in the list!\n"));
@@ -124,7 +125,7 @@ ListReturnCode ListInsertAfter(List* list, int index, ListElem value) {
     PREV(old_index) = new_index;
 
     LIST_VERIFY(list);
-    LIST_DUMP(list, 2, index, value);
+    LIST_DUMP(list, "End: %s (%d, %d)", __func__, index, value);
 
     return SUCCESS;
 }
@@ -185,7 +186,7 @@ ListReturnCode ListDeleteIndex(List* list, int index) {
     ASSERT(index >= 0,   "INDEX ERROR!\n");
 
     LIST_VERIFY(list);
-    LIST_DUMP(list, 1, index, 0);
+    LIST_DUMP(list, "Start: %s (%d)", __func__, index);
 
     DATA(index) = POISON;
 
@@ -200,7 +201,7 @@ ListReturnCode ListDeleteIndex(List* list, int index) {
     list->free = index;
 
     LIST_VERIFY(list);
-    LIST_DUMP(list, 1, index);
+    LIST_DUMP(list, "End: %s (%d)", __func__, index);
 
     return SUCCESS;
 }
@@ -243,7 +244,7 @@ int VeryVerySlowAlgorithmThatFindIndexOfElementByItsValuePleaseDontUseThisFuncti
     ASSERT(list != NULL, "NULL POINTER WAS PASSED!\n");
 
     LIST_VERIFY(list);
-    LIST_DUMP(list, 1, value);
+    LIST_DUMP(list, "Start: %s (%d)", __func__, value);
 
     char password_buffer[PASSWORD_LENGTH] = {};
     printf(YELLOW("IF YOU ARE SURE THAT YOU REALLY WANT TO USE THIS FUNCTION, then\nPlease, enter a password:\n"));
@@ -265,7 +266,7 @@ int VeryVerySlowAlgorithmThatFindIndexOfElementByItsValuePleaseDontUseThisFuncti
     }
 
     LIST_VERIFY(list);
-    LIST_DUMP(list, 1, value);
+    LIST_DUMP(list, "End: %s (%d)", __func__, value);
 
     return index;
 }
@@ -279,7 +280,7 @@ ListReturnCode ListDeleteValue(List* list, ListElem value) {
     ASSERT(list != NULL, "NULL POINTER WAS PASSED!\n");
 
     LIST_VERIFY(list);
-    LIST_DUMP(list, 1, value);
+    LIST_DUMP(list, "Start: %s (%d)", __func__, value);
 
     int delete_index = VeryVerySlowAlgorithmThatFindIndexOfElementByItsValuePleaseDontUseThisFunctionBecauseItsTheSlowest(list, value);
 
@@ -292,7 +293,7 @@ ListReturnCode ListDeleteValue(List* list, ListElem value) {
     }
 
     LIST_VERIFY(list);
-    LIST_DUMP(list, 1, value);
+    LIST_DUMP(list, "End: %s (%d)", __func__, value);
 
     return SUCCESS;
 }
@@ -337,7 +338,7 @@ ListReturnCode ListResize(List* list, size_t new_size) {
     ASSERT(new_size > 0, "NEW SIZE ERROR VALUE!\n");
 
     LIST_VERIFY(list);
-    LIST_DUMP(list, 1, new_size);
+    LIST_DUMP(list, "Start: %s (%lu)", __func__, new_size);
 
     if (new_size <= list->capacity) {
         printf(RED("NEW SIZE ERROR VALUE!\n"));
@@ -381,7 +382,7 @@ ListReturnCode ListResize(List* list, size_t new_size) {
     NEXT(new_size - 1) = -1;
 
     LIST_VERIFY(list);
-    LIST_DUMP(list, 1, new_size);
+    LIST_DUMP(list, "End: %s (%lu)", __func__, new_size);
 
     return SUCCESS;
 }
